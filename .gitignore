@@ -2,8 +2,9 @@
 node_modules/
 
 # Your personal resume outputs — output/ is tracked as an empty folder via .gitkeep.
-# Any .docx files you generate stay local and are never committed.
-output/*.docx
+# All generated files stay local and are never committed.
+output/*
+!output/.gitkeep
 
 # Your generated build scripts — contain your personal resume content (name, contact,
 # work history). Claude generates these from your corpus. See the .example.mjs files
@@ -12,9 +13,10 @@ build_resume.mjs
 build_resume_pdf.mjs
 
 # Your personal work history logs — corpus/ is tracked as an empty folder via .gitkeep.
-# Anything you write inside corpus/ (e.g. corpus/microsoft.md) is personal data
-# and stays on your machine only. Fork this repo to use it for yourself.
-corpus/*.md
+# All files you write inside corpus/ are personal data and stay on your machine only.
+# Fork this repo to use it for yourself.
+corpus/*
+!corpus/.gitkeep
 
 # Claude Code personal settings (API keys, local preferences)
 .claude/settings.local.json

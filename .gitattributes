@@ -1,0 +1,4 @@
+# Enforce LF line endings in the repo for all text files.
+# This prevents the "LF will be replaced by CRLF" warning on Windows
+# regardless of each contributor's core.autocrlf setting.
+* text=auto eol=lf
