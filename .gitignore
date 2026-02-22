@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Your personal resume outputs — output/ is tracked as an empty folder via .gitkeep.
+# Any .docx files you generate stay local and are never committed.
+output/*.docx
+
+# Your personal work history logs — corpus/ is tracked as an empty folder via .gitkeep.
+# Anything you write inside corpus/ (e.g. corpus/microsoft.md) is personal data
+# and stays on your machine only. Fork this repo to use it for yourself.
+corpus/*.md
+
+# Claude Code personal settings (API keys, local preferences)
+.claude/settings.local.json
+
+# OS junk
+.DS_Store
+Thumbs.db
