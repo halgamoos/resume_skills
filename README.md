@@ -8,7 +8,7 @@ A Claude Code workspace for building software engineer resumes using the `swe-re
 
 1. **Corpus** (`corpus/`) — Your running log of work history. Fill this out as you ship things so Claude has rich context before it asks you anything. _This folder is personal — see note below._
 2. **Skill** (`.claude/skills/swe-resume/`) — The `swe-resume` Claude Code skill that drives the interview and resume generation workflow.
-3. **Build script** (`build_resume.mjs`) — A Node.js script generated during the session that produces the final `.docx` file via the `docx` library.
+3. **Build script** (`build_resume.mjs`) — A Node.js script Claude generates for you during the session. It contains your personal resume content and is gitignored — see `build_resume.example.mjs` for the expected shape.
 4. **Output** (`output/`) — Where finished resumes land, named `YourName_Resume_YYYY-MM-DD.docx`. _This folder is personal — see note below._
 
 ---
@@ -75,6 +75,6 @@ Your personal data stays entirely on your machine. This repo only ever contains 
 
 ## Customizing
 
-- **Resume layout and bullets** — edit `build_resume.mjs`
+- **Resume layout and bullets** — edit `build_resume.mjs` (your local generated copy) or `build_resume.example.mjs` to change the template Claude follows
 - **Interview behavior and writing rules** — edit `.claude/skills/swe-resume/SKILL.md`
 - **Work history** — add files to `corpus/` (gitignored, stays local)

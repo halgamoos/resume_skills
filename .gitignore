@@ -5,6 +5,11 @@ node_modules/
 # Any .docx files you generate stay local and are never committed.
 output/*.docx
 
+# Your generated build script — contains your personal resume content (name, contact,
+# work history). Claude generates this from your corpus. See build_resume.example.mjs
+# for the expected shape. Fork users: Claude will generate your own copy on first run.
+build_resume.mjs
+
 # Your personal work history logs — corpus/ is tracked as an empty folder via .gitkeep.
 # Anything you write inside corpus/ (e.g. corpus/microsoft.md) is personal data
 # and stays on your machine only. Fork this repo to use it for yourself.

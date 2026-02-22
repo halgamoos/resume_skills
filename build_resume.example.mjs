@@ -11,6 +11,7 @@ const HEADER_SIZE = 22;    // 11pt
 const NAME_SIZE = 56;      // 28pt
 // Content width = page width (12240) - left margin (900) - right margin (900)
 const RIGHT_TAB = 10440;
+const NAME = "Jane Smith";  // ← Claude fills this in from your corpus/interview
 
 // ── Numbering config ──────────────────────────────────────────────────────────
 const numberingConfig = {
@@ -121,22 +122,22 @@ const doc = new Document({
         // ── Name ──────────────────────────────────────────────────────────────
         new Paragraph({
           children: [
-            new TextRun({ text: "Hamza Algamoos", bold: true, size: NAME_SIZE, font: FONT }),
+            new TextRun({ text: NAME, bold: true, size: NAME_SIZE, font: FONT }),
           ],
           alignment: AlignmentType.CENTER,
           spacing: { before: 0, after: 80 },
         }),
 
-        // ── Contact (no location) ──────────────────────────────────────────────
+        // ── Contact ───────────────────────────────────────────────────────────
         new Paragraph({
           children: [
-            hyperlink("halgamoos@gmail.com", "mailto:halgamoos@gmail.com"),
+            hyperlink("jane@example.com", "mailto:jane@example.com"),
             sep(),
-            new TextRun({ text: "718-916-2524", size: BODY_SIZE, font: FONT }),
+            new TextRun({ text: "555-123-4567", size: BODY_SIZE, font: FONT }),
             sep(),
-            hyperlink("linkedin.com/in/hamza-algamoos", "https://www.linkedin.com/in/hamza-algamoos/"),
+            hyperlink("linkedin.com/in/janesmith", "https://www.linkedin.com/in/janesmith/"),
             sep(),
-            hyperlink("github.com/Halgamoos", "https://github.com/Halgamoos"),
+            hyperlink("github.com/janesmith", "https://github.com/janesmith"),
           ],
           alignment: AlignmentType.CENTER,
           spacing: { before: 0, after: 160 },
@@ -145,89 +146,52 @@ const doc = new Document({
         // ── EXPERIENCE ────────────────────────────────────────────────────────
         sectionHeader("EXPERIENCE"),
 
-        // Microsoft — Full-time SWE
         ...jobHeader(
-          "Microsoft",
-          "Redmond, WA",
-          "Software Engineer — M365 Search",
-          "May 2024 – Present"
+          "Acme Corp",
+          "Seattle, WA",
+          "Senior Software Engineer",
+          "Jan 2022 – Present"
         ),
         bullet(
-          "Architected the Semantic Fabric Platform, a client-driven vector embedding onboarding framework enabling flexible, item-level integration of any content for semantic indexing; adopted by 4 teams under the VP of Semantic and Lexical Ingestion."
+          "Designed and shipped a distributed rate-limiting service handling 500K req/s, reducing downstream failures by 70%."
         ),
         bullet(
-          "Designed an extensible model abstraction layer supporting OpenAI text-embedding-3-large and internal Microsoft embedding models (FBV8, FBV4), establishing the org-wide standard for vector model onboarding across M365 Search."
+          "Led migration of monolithic API to microservices across 6 teams, cutting average deploy time from 45 min to 8 min."
         ),
         bullet(
-          "Integrated MinMax quantized indexing into the M365 Semantic Index, reducing storage by 40% and DRAM memory consumption while preserving 99% recall."
-        ),
-        bullet(
-          "Ranked #1 code contributor out of 45 engineers under skip-level manager, consistently delivering high-velocity production changes across C#, .NET, and Rust codebases."
+          "Mentored 3 junior engineers; 2 promoted within the year."
         ),
 
-        // Microsoft — Intern 2023
         ...jobHeader(
-          "Microsoft",
-          "Redmond, WA",
-          "Software Engineer Intern — M365 Search",
-          "Jun 2023 – Aug 2023"
-        ),
-        bullet(
-          "Optimized the M365 Search Data Shard Management Service to increase queries per second (QPS) with reduced processing time and resource usage."
-        ),
-        bullet(
-          "Implemented an In-Place Upscaling solution for Query Shards that lowered infrastructure resource consumption by up to 35%."
-        ),
-
-        // Microsoft — Intern 2022
-        ...jobHeader(
-          "Microsoft",
-          "Redmond, WA",
-          "Software Engineer Intern — M365",
-          "Jun 2022 – Aug 2022"
-        ),
-        bullet(
-          "Integrated Azure Chaos Studio API into the M365 Repair Management Service to improve resilience by simulating fault injection and outage scenarios."
-        ),
-        bullet(
-          "Built an SDK in C# to interact with the Chaos fault injection REST API and identity provider, enabling automated chaos experiments at scale."
-        ),
-
-        // Microsoft — New Technologist
-        ...jobHeader(
-          "Microsoft",
-          "Redmond, WA (Remote)",
-          "New Technologist Intern",
+          "Acme Corp",
+          "Seattle, WA",
+          "Software Engineer Intern",
           "Jun 2021 – Aug 2021"
         ),
         bullet(
-          "Developed a web app MVP with a cross-functional team of 5 focused on building community empathy through shared cultural experiences."
-        ),
-        bullet(
-          "Conducted usability tests, empathy mapping, and user persona research to improve product user flow, guided by coaching from a senior SWE and PM."
+          "Built an internal observability dashboard (React + FastAPI) adopted by 30+ engineers within the quarter."
         ),
 
         // ── SKILLS ────────────────────────────────────────────────────────────
         sectionHeader("SKILLS"),
-        skillRow("Languages: ", "C#, Rust, Python, JavaScript, C++, PowerShell, HTML, CSS"),
-        skillRow("Frameworks: ", ".NET Core, ASP.NET Core, React, Node.js, Protocol Buffers"),
-        skillRow("Infra / Cloud: ", "Azure, Azure Chaos Studio, REST APIs, Git"),
-        skillRow("Domains: ", "Semantic Search, Vector Embeddings, Distributed Systems, ML Indexing, ANN (Approximate Nearest Neighbor)"),
+        skillRow("Languages: ", "Python, TypeScript, Go, SQL"),
+        skillRow("Frameworks: ", "FastAPI, React, gRPC, Kubernetes"),
+        skillRow("Infra / Cloud: ", "AWS (EC2, S3, Lambda), Terraform, Docker, Git"),
 
         // ── EDUCATION ─────────────────────────────────────────────────────────
         sectionHeader("EDUCATION"),
         new Paragraph({
           children: [
-            new TextRun({ text: "CUNY Hunter College", bold: true, size: BODY_SIZE, font: FONT }),
+            new TextRun({ text: "State University", bold: true, size: BODY_SIZE, font: FONT }),
             new TextRun({ text: "\t", size: BODY_SIZE, font: FONT }),
-            new TextRun({ text: "Jan 2024", size: BODY_SIZE, font: FONT, color: "555555" }),
+            new TextRun({ text: "May 2022", size: BODY_SIZE, font: FONT, color: "555555" }),
           ],
           tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
           spacing: { before: 120, after: 0 },
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: "B.A., Computer Science", size: BODY_SIZE, font: FONT, italics: true }),
+            new TextRun({ text: "B.S., Computer Science", size: BODY_SIZE, font: FONT, italics: true }),
           ],
           spacing: { before: 0, after: 60 },
         }),
@@ -238,8 +202,8 @@ const doc = new Document({
 });
 
 // ── Write file ────────────────────────────────────────────────────────────────
-const DATE = "2026-02-21";
-const FILENAME = `Hamza_Algamoos_Resume_${DATE}.docx`;
+const DATE = new Date().toISOString().slice(0, 10);
+const FILENAME = `${NAME.replace(/ /g, "_")}_Resume_${DATE}.docx`;
 
 mkdirSync("output", { recursive: true });
 const buf = await Packer.toBuffer(doc);

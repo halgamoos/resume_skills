@@ -152,6 +152,18 @@ new Paragraph({
 })
 ```
 
+### File naming (always dynamic — never hardcode)
+
+```javascript
+// At the top of the constants block — derive filename from these two values
+const NAME = "Candidate Full Name";   // ← fill in from interview/corpus
+const DATE = new Date().toISOString().slice(0, 10);  // always runtime, never a literal date
+const FILENAME = `${NAME.replace(/ /g, "_")}_Resume_${DATE}.docx`;
+```
+
+- `NAME` must be used in both the document `TextRun` and the output filename — never duplicate the string
+- `DATE` must always be computed at runtime — never a hardcoded string like `"2025-01-01"`
+
 ### Bullet Points
 
 ```javascript
