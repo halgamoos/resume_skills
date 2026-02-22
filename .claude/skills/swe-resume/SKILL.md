@@ -23,9 +23,9 @@ iCIMS, Taleo) while also looking clean when read by humans.
 
 1. **Check for corpus** — look for `corpus/` directory in the project root (see Corpus section below)
 2. **Gather content** — read corpus files first, then interview the user only for gaps
-3. **Consult the docx skill** — read `/mnt/skills/public/docx/SKILL.md` before writing any code
-4. **Build the resume** — follow the Layout and Formatting rules below
-5. **Validate & deliver** — run validation, copy to `/mnt/user-data/outputs/`, present to user
+3. **Choose output format** — default to `.docx`; switch to PDF if the user asks for PDF or says they can't open/convert Word files
+4. **Build the resume** — follow the Layout and Formatting rules below; use `build_resume.example.mjs` for `.docx` and `build_resume_pdf.example.mjs` for PDF as your code reference
+5. **Validate & deliver** — run the generated script with `node build_resume[_pdf].mjs`, confirm the file lands in `output/`, present to user
 6. **Offer corpus update** — after delivery, ask if anything new should be logged back to the corpus
 
 ---
@@ -220,20 +220,78 @@ Tools:        Git, GitHub Actions, Datadog, Grafana, Jira
 
 ---
 
+## PDF Generation
+
+Use `pdfkit` (already in `package.json`) when the user requests PDF output or cannot convert from Word.
+Reference `build_resume_pdf.example.mjs` for the full working template. Key points:
+
+```javascript
+import PDFDocument from "pdfkit";
+import { createWriteStream, mkdirSync } from "fs";
+
+// US Letter: 612 × 792 points (72pt = 1 inch)
+const ML = 63; const MR = 63; const W = 612 - ML - MR;  // 486pt content width
+
+const doc = new PDFDocument({
+  size: "LETTER",
+  margins: { top: 50, bottom: 50, left: ML, right: MR },
+  info: { Title: `${NAME} Resume`, Author: NAME, Subject: "Software Engineer Resume" },
+});
+```
+
+**pdfkit font names** (built-in, no install needed):
+- `"Helvetica"` — body text (visually identical to Arial)
+- `"Helvetica-Bold"` — bold
+- `"Helvetica-Oblique"` — italic
+
+**Section divider line** (replaces the docx bottom border):
+```javascript
+doc.font("Helvetica-Bold").fontSize(11).text(text);
+doc.moveTo(ML, doc.y + 1).lineTo(ML + W, doc.y + 1).lineWidth(0.75).stroke("#2C2C2C");
+```
+
+**Same-line left + right text** (company/dates, etc.):
+```javascript
+const y = doc.y;
+doc.font("Helvetica-Bold").text(leftText, ML, y);
+doc.font("Helvetica").fillColor("#555555").text(rightText, ML, y, { width: W, align: "right" });
+```
+
+**Bullet list:**
+```javascript
+doc.font("Helvetica").fontSize(10)
+   .list(items, { bulletRadius: 1.5, textIndent: 12, bulletIndent: 3, lineGap: 2 });
+```
+
+**Write output** (always async with a stream):
+```javascript
+mkdirSync("output", { recursive: true });
+const stream = createWriteStream(`output/${FILENAME}`);
+await new Promise((resolve, reject) => {
+  stream.on("finish", resolve);
+  stream.on("error", reject);
+  doc.pipe(stream);
+  doc.end();
+});
+```
+
+**ATS notes for PDF:** pdfkit produces real-text PDFs (not images), so text is fully parseable.
+Contact line should be plain centered text — URL and email hyperlink annotations are cosmetic only.
+
+---
+
 ## References
 
-- For docx creation mechanics, tables, styles, bullet lists → `/mnt/skills/public/docx/SKILL.md`
-- For PDF export if requested → `/mnt/skills/public/pdf/SKILL.md`
+- `.docx` template → `build_resume.example.mjs`
+- PDF template → `build_resume_pdf.example.mjs`
 
 ---
 
 ## Validation & Output
 
 After generating:
-1. Run `python scripts/office/validate.py resume.docx`
-2. Fix any validation errors before presenting
-3. Copy final file to `/mnt/user-data/outputs/[Name]_Resume.docx`
-4. Present with `present_files` tool
+1. Run `node build_resume.mjs` (or `node build_resume_pdf.mjs` for PDF)
+2. Confirm the file appears in `output/` with the correct name
+3. Present the path to the user
 
-Remind the user: if they want a PDF version, export from Word/Google Docs (not a converter)
-for best ATS compatibility.
+The generated scripts write to `output/` automatically — no manual copy step needed.
